@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Heathify | Apply for Membership{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-box glass-card animate-fade-up" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">🌿</div>
+        <h2 style="margin-bottom:0.3rem;">Apply for Membership</h2>
+        <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:0.5rem;">Join 50,000+ wellness elites</p>
+        <div
+            style="background:linear-gradient(135deg,rgba(200,169,110,0.15),rgba(111,61,20,0.05));border-radius:8px;padding:0.8rem;margin-bottom:1.5rem;">
+            <p style="font-size:0.8rem;color:var(--accent);font-weight:600;">🎁 Sign up and complete profile → earn 100
+                bonus points!</p>
+        </div>
+        <form method="POST" action="{{ url_for('signup') }}">
+            <input type="text" name="name" class="auth-input" placeholder="Full Name" required>
+            <input type="text" name="username" class="auth-input" placeholder="Username" required
+                autocomplete="username">
+            <input type="password" name="password" class="auth-input" placeholder="Password" required
+                autocomplete="new-password">
+            <button type="submit" class="btn-premium"
+                style="width:100%;margin-top:1.2rem;padding:14px;font-size:0.9rem;">Submit Application →</button>
+        </form>
+        <p style="margin-top:1.5rem;font-size:0.82rem;color:var(--text-muted);">
+            Already a member? <a href="{{ url_for('login') }}" style="color:var(--accent);font-weight:600;">Access
+                Account</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block title %}Heathify | Checkout{% endblock %}
+
+{% block content %}
+<div style="padding:3rem 5%;">
+    <div style="max-width:960px;margin:0 auto;">
+        <div style="margin-bottom:2.5rem;">
+            <h1 style="font-size:2.5rem;margin-bottom:0.3rem;">Secure Checkout</h1>
+            <p style="color:var(--text-muted);">Review your order, apply points, and complete your wellness purchase.
+            </p>
+        </div>
+
+        <form method="POST" action="{{ url_for('place_order') }}">
+            <div style="display:grid;grid-template-columns:1fr 340px;gap:2rem;align-items:start;">
+
+                <!-- Left: Bill + Address -->
+                <div style="display:flex;flex-direction:column;gap:2rem;">
+
+                    <!-- Itemized Bill -->
+                    <div class="glass-card" style="padding:0;overflow:hidden;">
+                        <div style="padding:1.5rem 1.5rem 0.5rem;border-bottom:1px solid var(--glass-border);">
+                            <h3 style="margin:0;">🧾 Itemized Bill</h3>
+                        </div>
+                        <table class="premium-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th style="text-align:center;">Qty</th>
+                                    <th style="text-align:right;">Unit Price</th>
+                                    <th style="text-align:right;">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                <tr>
+                                    <td><strong>{{ item.product_name }}</strong><br><small
+                                            style="color:var(--text-light);">{{ item.category }}</small></td>
+                                    <td style="text-align:center;">{{ item.quantity }}</td>
+                                    <td style="text-align:right;">₹{{ "{:,.0f}".format(item.price_inr) }}</td>
+                                    <td style="text-align:right;font-weight:600;">₹{{ "{:,.0f}".format(item.price_inr *
+                                        item.quantity) }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr class="total-row">
+                                    <td colspan="3">Subtotal</td>
+                                    <td style="text-align:right;">₹{{ "{:,.2f}".format(subtotal) }}</td>
+                                </tr>
+                                <tr class="gst-row">
+                                    <td colspan="3">GST @ 18% <small>(as per Indian GST regulations)</small></td>
+                                    <td style="text-align:right;">+ ₹{{ "{:,.2f}".format(gst) }}</td>
+                                </tr>
+                                <tr class="discount-row" id="discount-row" style="display:none;">
+                                    <td colspan="3">⭐ Points Discount</td>
+                                    <td style="text-align:right;" id="discount-cell">− ₹0</td>
+                                </tr>
+                                <tr class="grand-row">
+                                    <td colspan="3">GRAND TOTAL (₹)</td>
+                                    <td style="text-align:right;" id="checkout-grand" data-base="{{ subtotal + gst }}">
+                                        ₹{{ "{:,.2f}".format(subtotal + gst) }}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <!-- Hidden base grand for JS -->
+                        <span id="base-grand" data-value="{{ subtotal + gst }}" style="display:none;"></span>
+                    </div>
+
+                    <!-- Delivery Address -->
+                    <div class="glass-card">
+                        <h3 style="margin-bottom:1.2rem;">📍 Delivery Address</h3>
+                        <textarea name="address" rows="3" required
+                            style="width:100%;padding:14px;border:1.5px solid var(--glass-border);border-radius:8px;background:rgba(255,248,240,0.8);color:var(--text-color);font-family:var(--font-body);font-size:0.9rem;resize:vertical;box-sizing:border-box;"
+                            placeholder="Enter your complete delivery address, including flat/house number, street, city, state, and PIN code..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Right: Summary + Points -->
+                <div style="display:flex;flex-direction:column;gap:1.5rem;">
+
+                    <!-- Order Summary Card -->
+                    <div class="glass-card">
+                        <h3 style="margin-bottom:1.2rem;">Order Summary</h3>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:0.7rem;font-size:0.9rem;">
+                            <span style="color:var(--text-muted);">Subtotal</span>
+                            <span>₹{{ "{:,.2f}".format(subtotal) }}</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:0.7rem;font-size:0.9rem;">
+                            <span style="color:var(--text-muted);">GST (18%)</span>
+                            <span style="color:var(--text-muted);">+ ₹{{ "{:,.2f}".format(gst) }}</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:0.7rem;font-size:0.9rem;color:#27ae60;"
+                            id="summary-discount-row" style="display:none;">
+                            <span>Points Discount</span>
+                            <span id="summary-discount">− ₹0</span>
+                        </div>
+                        <div style="height:1px;background:var(--glass-border);margin:1rem 0;"></div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;">
+                            <span
+                                style="font-family:var(--font-heading);font-size:1.2rem;font-weight:700;color:var(--accent);">Total</span>
+                            <span id="summary-grand"
+                                style="font-family:var(--font-heading);font-size:1.3rem;font-weight:700;color:var(--accent);">₹{{
+                                "{:,.2f}".format(subtotal + gst) }}</span>
+                        </div>
+                        <p style="font-size:0.75rem;color:var(--text-light);margin-bottom:1.5rem;">+50 wellness points
+                            upon order</p>
+                        <button type="submit" class="btn-premium" style="width:100%;font-size:0.9rem;padding:14px;">
+                            Place Order ✓
+                        </button>
+                    </div>
+
+                    <!-- Points Redemption -->
+                    {% if user.points > 0 %}
+                    <div class="glass-card"
+                        style="background:linear-gradient(135deg,rgba(200,169,110,0.12),rgba(111,61,20,0.05));">
+                        <h4 style="margin-bottom:0.3rem;">⭐ Redeem Points</h4>
+                        <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:1rem;">You have <strong>{{
+                                user.points }} pts</strong>. Use ₹1 per point (max 20% off).</p>
+                        <input type="hidden" name="points_redeem" id="points_redeem" value="0">
+                        <input type="range" id="redeem-slider" min="0"
+                            max="{{ [user.points, ((subtotal + gst) * 0.20)|int]|min }}" value="0" step="1"
+                            style="width:100%;accent-color:var(--accent);margin-bottom:0.7rem;">
+                        <div style="display:flex;justify-content:space-between;font-size:0.82rem;">
+                            <span style="color:var(--text-muted);">Selected:</span>
+                            <span id="redeem-display" style="font-weight:700;color:var(--accent);">0 pts (saves
+                                ₹0)</span>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Trust Badges -->
+                    <div class="glass-card"
+                        style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;padding:1.2rem;">
+                        <p>🔒 Secure, encrypted checkout</p>
+                        <p>🚚 Express 48-hour farm-to-door delivery</p>
+                        <p>↩️ Hassle-free 7-day returns</p>
+                        <p>🌿 100% organic, FSSAI certified</p>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Sync points slider with summary totals
+    const baseGrand = parseFloat('{{ subtotal + gst }}');
+    const slider = document.getElementById('redeem-slider');
+    const redeemInput = document.getElementById('points_redeem');
+    const redeemDisplay = document.getElementById('redeem-display');
+    const discountRow = document.getElementById('discount-row');
+    const discountCell = document.getElementById('discount-cell');
+    const summaryDiscount = document.getElementById('summary-discount');
+    const summaryDiscountRow = document.getElementById('summary-discount-row');
+    const checkoutGrand = document.getElementById('checkout-grand');
+    const summaryGrand = document.getElementById('summary-grand');
+
+    if (slider) {
+        slider.addEventListener('input', function () {
+            const val = parseInt(this.value);
+            redeemInput.value = val;
+            redeemDisplay.textContent = val + ' pts (saves ₹' + val.toLocaleString('en-IN') + ')';
+            const newGrand = Math.max(0, baseGrand - val);
+            const fmtGrand = '₹' + newGrand.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            if (checkoutGrand) checkoutGrand.textContent = fmtGrand;
+            if (summaryGrand) summaryGrand.textContent = fmtGrand;
+            if (val > 0) {
+                if (discountRow) discountRow.style.display = '';
+                if (discountCell) discountCell.textContent = '− ₹' + val.toLocaleString('en-IN');
+                if (summaryDiscountRow) summaryDiscountRow.style.display = '';
+                if (summaryDiscount) summaryDiscount.textContent = '− ₹' + val.toLocaleString('en-IN');
+            } else {
+                if (discountRow) discountRow.style.display = 'none';
+                if (summaryDiscountRow) summaryDiscountRow.style.display = 'none';
+            }
+        });
+    }
+</script>
+{% endblock %}

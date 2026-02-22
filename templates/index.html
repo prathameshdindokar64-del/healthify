@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+
+{% block title %}Heathify | Premium Organic Wellness{% endblock %}
+
+{% block content %}
+
+<!-- ===== HERO FULL-WIDTH ===== -->
+<section class="hero-full" style="background-image: url('{{ url_for('static', filename='images/hero-food.png') }}')">
+    <div class="hero-full__overlay"></div>
+    <div class="hero-full__content animate-fade-up">
+        <div class="hero-full__eyebrow">Premium Organic &middot; Est. 2024</div>
+        <h1 class="hero-full__headline">
+            Eat Better Than<br><span class="hero-gold">Everyone Else.</span>
+        </h1>
+        <p class="hero-full__sub">
+            Meticulously curated organic nutrition — certified, chef-crafted,
+            and delivered directly to your door within 48 hours.
+        </p>
+        <div class="hero-full__cta">
+            <a href="{{ url_for('shop') }}" class="btn-premium"
+                style="background:linear-gradient(135deg,var(--accent-gold),#a08222);color:#1a1a1a;">Explore the
+                Collection</a>
+            {% if not session.get('user_id') %}
+            <a href="{{ url_for('signup') }}" class="btn-outline"
+                style="color:#fff;border-color:rgba(255,255,255,0.5);">Become a Member</a>
+            {% else %}
+            <a href="{{ url_for('dashboard') }}" class="btn-outline"
+                style="color:#fff;border-color:rgba(255,255,255,0.5);">My Dashboard</a>
+            {% endif %}
+        </div>
+        <div class="hero-full__micro">
+            <span>50,000+ Premium Members</span>
+            <span class="micro-dot"></span>
+            <span>100% Organic Certified</span>
+            <span class="micro-dot"></span>
+            <span>48 hr Farm-to-Door</span>
+        </div>
+    </div>
+    <div class="hero-full__badge">
+        <span class="label-dot"></span>
+        Farm Fresh &middot; Handcrafted Daily
+    </div>
+</section>
+
+<!-- ===== MARQUEE STRIP ===== -->
+<div class="marquee-strip">
+    <div class="marquee-track">
+        <span>Organic Certified</span><span class="sep">&middot;</span>
+        <span>Non-GMO Verified</span><span class="sep">&middot;</span>
+        <span>FSSAI Licensed</span><span class="sep">&middot;</span>
+        <span>Carbon Neutral</span><span class="sep">&middot;</span>
+        <span>Fair Trade</span><span class="sep">&middot;</span>
+        <span>ISO 22000 Certified</span><span class="sep">&middot;</span>
+        <span>Organic Certified</span><span class="sep">&middot;</span>
+        <span>Non-GMO Verified</span><span class="sep">&middot;</span>
+        <span>FSSAI Licensed</span><span class="sep">&middot;</span>
+        <span>Carbon Neutral</span><span class="sep">&middot;</span>
+        <span>Fair Trade</span><span class="sep">&middot;</span>
+        <span>ISO 22000 Certified</span><span class="sep">&middot;</span>
+    </div>
+</div>
+
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="how-section">
+    <div class="section-title animate-fade-up">
+        <p class="section-eyebrow">The Process</p>
+        <h2>How Heathify Works</h2>
+        <p>Three deliberate steps to a genuinely curated wellness lifestyle.</p>
+    </div>
+    <div class="how-grid">
+        <div class="how-card animate-fade-up">
+            <div class="how-num">01</div>
+            <h3>Create Your Profile</h3>
+            <p>Enter your biometrics and health conditions. Our AI crafts a personalised day plan built exclusively from
+                Heathify products.</p>
+        </div>
+        <div class="how-connector"></div>
+        <div class="how-card animate-fade-up" style="animation-delay:0.15s">
+            <div class="how-num">02</div>
+            <h3>Shop the Collection</h3>
+            <p>Browse 50+ premium organic products. Add to cart, earn wellness points, and redeem them for members-only
+                discounts.</p>
+        </div>
+        <div class="how-connector"></div>
+        <div class="how-card animate-fade-up" style="animation-delay:0.3s">
+            <div class="how-num">03</div>
+            <h3>Live the Lifestyle</h3>
+            <p>Track your progress, consult your AI health coach at any time, and advance through Bronze to Obsidian
+                wellness tiers.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="testimonials-section">
+    <div class="section-title animate-fade-up">
+        <p class="section-eyebrow">Member Stories</p>
+        <h2>What the Community Says</h2>
+        <p>Unfiltered feedback from members who live the Heathify standard daily.</p>
+    </div>
+    <div class="testimonial-grid">
+        <div class="tcard animate-fade-up">
+            <div class="tcard-stars">★★★★★</div>
+            <p class="tcard-body">"The Gold Leaf Salad genuinely changed how I think about food. My performance at work
+                improved within two weeks. Worth every rupee."</p>
+            <div class="tcard-author">
+                <div class="tcard-avatar">A</div>
+                <div>
+                    <div class="tcard-name">Aryan M.</div>
+                    <div class="tcard-role">Platinum Member &middot; Delhi</div>
+                </div>
+            </div>
+        </div>
+        <div class="tcard animate-fade-up" style="animation-delay:0.15s">
+            <div class="tcard-stars">★★★★★</div>
+            <p class="tcard-body">"Heathify's AI coach tailored a protein plan that actually fits my schedule. The
+                results were visible within a month."</p>
+            <div class="tcard-author">
+                <div class="tcard-avatar">P</div>
+                <div>
+                    <div class="tcard-name">Priya S.</div>
+                    <div class="tcard-role">Gold Member &middot; Mumbai</div>
+                </div>
+            </div>
+        </div>
+        <div class="tcard animate-fade-up" style="animation-delay:0.3s">
+            <div class="tcard-stars">★★★★★</div>
+            <p class="tcard-body">"Redeemed 500 points on the Noir Brownie. Zero sugar, exceptional craft. The
+                gamification keeps me genuinely engaged."</p>
+            <div class="tcard-author">
+                <div class="tcard-avatar">K</div>
+                <div>
+                    <div class="tcard-name">Kabir R.</div>
+                    <div class="tcard-role">Silver Member &middot; Bangalore</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CERTIFICATION BELT ===== -->
+<section class="cert-section">
+    <div class="cert-inner">
+        <div class="section-title animate-fade-up">
+            <p class="section-eyebrow" style="color:var(--accent-dim)">Standards</p>
+            <h2 style="color:var(--accent-gold)">Authenticated Purity</h2>
+            <p style="color:var(--accent-dim)">Every product passes a 12-stage verification process before reaching your
+                table.</p>
+        </div>
+        <div class="cert-grid">
+            {% for cert in [('ISO 22000','Food Safety Management'), ('USDA Organic','Certified Organic'),
+            ('Non-GMO Project','Verified Ingredients'), ('Fair Trade','Ethically Sourced'),
+            ('FSSAI','India Licensed'), ('Carbon Neutral','Verified Emissions')] %}
+            <div class="cert-card animate-fade-up">
+                <div class="cert-abbr">{{ cert[0].split()[0][:3].upper() }}</div>
+                <h4 class="cert-name">{{ cert[0] }}</h4>
+                <p class="cert-sub">{{ cert[1] }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Press strip -->
+        <div class="press-strip animate-fade-up">
+            <p class="press-label">As Featured In</p>
+            <div class="press-logos">
+                {% for press in ['Forbes India', 'Vogue Wellness', 'The Hindu', 'Inc42', 'Economic Times'] %}
+                <span class="press-logo">{{ press }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- ===== FARMER'S UPLIFTMENT ===== -->
+<section class="farmers-section"
+    style="background-image: url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1920&q=80')">
+    <div class="farmers-overlay"></div>
+    <div class="farmers-inner">
+        <div class="section-title animate-fade-up" style="margin-bottom:2.5rem;">
+            <p class="section-eyebrow" style="color:var(--accent-gold);letter-spacing:3px;">Our Commitment</p>
+            <h2 style="color:#fff;font-size:3rem;">Uplifting the Hands<br>That Feed India</h2>
+            <p style="color:rgba(255,255,255,0.75);max-width:650px;margin:0.8rem auto 0;">
+                Every purchase you make directly empowers the farmers who grow your food. We believe prosperity
+                at your table must begin with prosperity in the field.
+            </p>
+        </div>
+
+        <!-- Impact stats row -->
+        <div class="farmers-stats animate-fade-up" style="animation-delay:0.1s">
+            <div class="fstat">
+                <div class="fstat-num">12,000+</div>
+                <div class="fstat-label">Farming Families Partnered</div>
+            </div>
+            <div class="fstat-divider"></div>
+            <div class="fstat">
+                <div class="fstat-num">35%</div>
+                <div class="fstat-label">Above Market Rate Paid</div>
+            </div>
+            <div class="fstat-divider"></div>
+            <div class="fstat">
+                <div class="fstat-num">18</div>
+                <div class="fstat-label">States Across India</div>
+            </div>
+            <div class="fstat-divider"></div>
+            <div class="fstat">
+                <div class="fstat-num">₹4.2Cr</div>
+                <div class="fstat-label">Paid to Farmers in 2024</div>
+            </div>
+        </div>
+
+        <!-- Pillars grid -->
+        <div class="farmers-grid animate-fade-up" style="animation-delay:0.2s">
+            <div class="fpillar">
+                <div class="fpillar-icon">
+                    <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8"
+                        viewBox="0 0 24 24">
+                        <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" />
+                        <path d="M12 6v6l4 2" />
+                    </svg>
+                </div>
+                <h4>Fair & Timely Pay</h4>
+                <p>We guarantee payment within 24 hours of harvest, eliminating the cruel wait that traps farmers in
+                    debt cycles.</p>
+            </div>
+            <div class="fpillar">
+                <div class="fpillar-icon">
+                    <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8"
+                        viewBox="0 0 24 24">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
+                    </svg>
+                </div>
+                <h4>Soil Regeneration</h4>
+                <p>40% of our sustainability fund goes toward composting, crop rotation training, and soil health
+                    infrastructure.</p>
+            </div>
+            <div class="fpillar">
+                <div class="fpillar-icon">
+                    <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8"
+                        viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+                        <line x1="9" y1="9" x2="9.01" y2="9" />
+                        <line x1="15" y1="9" x2="15.01" y2="9" />
+                    </svg>
+                </div>
+                <h4>Education & Wellness</h4>
+                <p>We sponsor children of partner farmers and provide free healthcare camps twice annually across all
+                    partner villages.</p>
+            </div>
+            <div class="fpillar">
+                <div class="fpillar-icon">
+                    <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8"
+                        viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                </div>
+                <h4>Zero Middlemen</h4>
+                <p>Our direct-source model ensures that the premium you pay flows straight into the farmer's hands — no
+                    brokers, no exploitation.</p>
+            </div>
+        </div>
+
+        <div class="animate-fade-up" style="animation-delay:0.3s;text-align:center;margin-top:2.5rem;">
+            <a href="{{ url_for('shop') }}" class="btn-premium"
+                style="background:linear-gradient(135deg,var(--accent-gold),#a08222);color:#1a1a1a;">
+                Shop & Support Farmers
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA BANNER ===== -->
+<section class="cta-banner animate-fade-up">
+    <div class="cta-banner__inner">
+        <h2>Ready to Elevate Your Standard?</h2>
+        <p>Join 50,000+ members who have made Heathify their daily ritual.</p>
+        {% if not session.get('user_id') %}
+        <a href="{{ url_for('signup') }}" class="btn-premium" style="font-size:0.9rem;padding:14px 40px;">Start Your
+            Journey</a>
+        {% else %}
+        <a href="{{ url_for('shop') }}" class="btn-premium" style="font-size:0.9rem;padding:14px 40px;">Shop the
+            Collection</a>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

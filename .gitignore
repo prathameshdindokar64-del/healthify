@@ -1,0 +1,85 @@
+# =====================
+# Python
+# =====================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.spec
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# =====================
+# Testing
+# =====================
+.pytest_cache/
+.coverage
+htmlcov/
+
+# =====================
+# Jupyter
+# =====================
+.ipynb_checkpoints/
+
+# =====================
+# Virtual Environments
+# =====================
+venv/
+env/
+.venv/
+.env/
+ENV/
+
+# =====================
+# Environment Variables & Secrets
+# =====================
+.env
+.env.*
+*.secret
+config_local.py
+
+# =====================
+# Flask / Web App
+# =====================
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# =====================
+# Logs & Temp Files
+# =====================
+*.log
+*.tmp
+*.bak
+*.swp
+
+# =====================
+# IDE / Editor
+# =====================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# =====================
+# OS Files
+# =====================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =====================
+# Node (if any frontend tooling)
+# =====================
+node_modules/
+npm-debug.log*
+
+# =====================
+# Uploads / User Content
+# =====================
+static/uploads/

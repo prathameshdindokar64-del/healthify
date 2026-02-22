@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Heathify | Medical Profile Setup{% endblock %}
+
+{% block content %}
+<div class="auth-container" style="height:auto;padding:4rem 1rem;">
+    <div class="auth-box glass-card animate-fade-up" style="width:640px;max-width:100%;text-align:left;padding:2.5rem;">
+        <div style="text-align:center;margin-bottom:2.5rem;">
+            <div style="font-size:2.5rem;margin-bottom:0.5rem;">📋</div>
+            <h2 style="margin-bottom:0.3rem;">Medical Profile Initialization</h2>
+            <p style="color:var(--text-muted);font-size:0.88rem;">Help us craft your bespoke health plan. Takes 2
+                minutes.</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('profile_setup') }}">
+            <!-- Biometrics -->
+            <h4 style="border-bottom:1.5px solid var(--glass-border);padding-bottom:0.5rem;margin-bottom:1rem;">
+                Biometrics</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+                <input type="number" name="age" class="auth-input" placeholder="Age (yrs)" required min="10" max="120">
+                <input type="number" step="0.1" name="height" class="auth-input" placeholder="Height (cm)" required
+                    min="50" max="300">
+                <input type="number" step="0.1" name="weight" class="auth-input" placeholder="Weight (kg)" required
+                    min="20" max="400">
+            </div>
+
+            <!-- Gender + Goal + Activity -->
+            <h4 style="border-bottom:1.5px solid var(--glass-border);padding-bottom:0.5rem;margin-bottom:1rem;">
+                Lifestyle</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+                <select name="gender" class="auth-select">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+                <select name="goal" class="auth-select">
+                    <option value="Stay Healthy">Stay Healthy</option>
+                    <option value="Lose Weight">Lose Weight</option>
+                    <option value="Build Muscle">Build Muscle</option>
+                    <option value="Improve Energy">Improve Energy</option>
+                    <option value="Boost Immunity">Boost Immunity</option>
+                </select>
+                <select name="activity_level" class="auth-select">
+                    <option value="Low">Low Activity</option>
+                    <option value="Moderate" selected>Moderate</option>
+                    <option value="High">High Activity</option>
+                </select>
+            </div>
+
+            <!-- Medical Conditions -->
+            <h4 style="border-bottom:1.5px solid var(--glass-border);padding-bottom:0.5rem;margin-bottom:0.5rem;">
+                Clinical Conditions</h4>
+            <p style="font-size:0.78rem;color:var(--text-light);margin-bottom:1rem;">Select all that apply. Used to
+                personalize your plan.</p>
+            <div
+                style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 2rem;color:var(--text-muted);font-size:0.88rem;margin-bottom:2rem;">
+                {% set conditions = [
+                ('Anorexia','Anorexia Nervosa'),('Bulimia','Bulimia Nervosa'),('Binge Eating','Binge Eating Disorder'),
+                ('Diabetes T1','Diabetes Type 1'),('Diabetes T2','Diabetes Type 2'),('Thyroid','Hypo/Hyperthyroidism'),
+                ('PCOS','PCOS/PCOD'),('Celiacs','Celiac Disease'),('IBS','IBS'),('Crohns',"Crohn's Disease"),
+                ('GERD','GERD'),('Depression','Clinical Depression'),('Anxiety','Anxiety Disorders'),
+                ('Alzheimers',"Alzheimer's/Dementia"),('Kidney Disease','Chronic Kidney Disease'),
+                ] %}
+                {% for val, label in conditions %}
+                <label
+                    style="display:flex;align-items:center;gap:0.5rem;padding:0.4rem;border-radius:6px;cursor:pointer;transition:background 0.2s;"
+                    onmouseover="this.style.background='rgba(111,61,20,0.05)'"
+                    onmouseout="this.style.background='transparent'">
+                    <input type="checkbox" name="conditions" value="{{ val }}"
+                        style="accent-color:var(--accent);width:15px;height:15px;">
+                    {{ label }}
+                </label>
+                {% endfor %}
+            </div>
+
+            <div
+                style="background:linear-gradient(135deg,rgba(200,169,110,0.1),rgba(111,61,20,0.05));border-radius:8px;padding:1rem;margin-bottom:1.5rem;">
+                <p style="font-size:0.8rem;color:var(--text-muted);">🎁 <strong>+100 wellness points</strong> awarded
+                    for completing your profile!</p>
+            </div>
+
+            <button type="submit" class="btn-premium" style="width:100%;font-size:0.95rem;padding:14px;">
+                Initialize My Profile ✓
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="padding: 10rem 10%; text-align: center;">
+    <h1 style="margin-bottom: 2rem;">The Science of Superiority</h1>
+    <p style="color: #aaa; max-width: 700px; margin: 0 auto 4rem auto;">
+        We don't just guess. We quantify perfection. Our produce is subjected to rigorous testing to ensure it meets the
+        standards of the elite.
+    </p>
+
+    <div class="product-grid">
+        <div class="glass-card" style="text-align: left;">
+            <h3>Pesticide Analysis</h3>
+            <p style="color: #ddd; font-size: 0.9rem; line-height: 1.6;">
+                Mass spectrometry reveals 0.00% trace chemicals. Our fruit is cleaner than the water you shower in.
+            </p>
+            <div style="margin-top: 1rem; height: 2px; background: #333; width: 100%;">
+                <div style="height: 100%; background: var(--accent-gold); width: 99%;"></div>
+            </div>
+            <p style="text-align: right; font-size: 0.7rem; color: var(--accent-gold); margin-top: 0.5rem;">99.9% Purity
+                Score</p>
+        </div>
+
+        <div class="glass-card" style="text-align: left;">
+            <h3>Nutrient Density</h3>
+            <p style="color: #ddd; font-size: 0.9rem; line-height: 1.6;">
+                Grown in volcanic soil enriched with proprietary mineral blends. One of our apples has the nutrient
+                profile of three from a standard market.
+            </p>
+            <div style="margin-top: 1rem; height: 2px; background: #333; width: 100%;">
+                <div style="height: 100%; background: var(--accent-gold); width: 300%;"></div>
+                <!-- Intentionally over 100% for effect -->
+            </div>
+            <p style="text-align: right; font-size: 0.7rem; color: var(--accent-gold); margin-top: 0.5rem;">300%
+                Standard Value</p>
+        </div>
+    </div>
+
+    <div style="margin-top: 5rem;">
+        <h2>Certifications</h2>
+        <div class="glass-card" style="padding: 3rem; margin-top: 2rem; display: inline-block; text-align: left;">
+            <ul style="list-style-type: none; padding: 0; color: #ccc;">
+                <li style="margin-bottom: 1rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem;">
+                    <span style="color: var(--accent-gold);">✓</span> Global G.A.P. Certified
+                </li>
+                <li style="margin-bottom: 1rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem;">
+                    <span style="color: var(--accent-gold);">✓</span> USDA Organic Regulation 7 CFR Part 205
+                </li>
+                <li style="margin-bottom: 1rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem;">
+                    <span style="color: var(--accent-gold);">✓</span> ISO 9001: Quality Management Systems
+                </li>
+                <li>
+                    <span style="color: var(--accent-gold);">✓</span> Fair Trade International Standards
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

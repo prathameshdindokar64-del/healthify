@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Heathify | Order Confirmed!{% endblock %}
+
+{% block content %}
+<div style="min-height:70vh;display:flex;align-items:center;justify-content:center;padding:4rem 5%;">
+    <div class="glass-card animate-fade-up" style="max-width:560px;width:100%;text-align:center;padding:3rem;">
+        <div style="font-size:4rem;margin-bottom:1.5rem;animation:bounce 1s ease-in-out;">🎉</div>
+        <h1 style="font-size:2.5rem;margin-bottom:0.5rem;">Order Confirmed!</h1>
+        <p style="color:var(--text-muted);margin-bottom:2rem;">Your premium organic selection is on its way. The elite
+            lifestyle awaits.</p>
+
+        {% if order %}
+        <div
+            style="background:var(--bg-secondary);border-radius:12px;padding:1.5rem;margin-bottom:2rem;text-align:left;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:0.8rem;">
+                <span style="color:var(--text-muted);">Order Amount</span>
+                <strong>₹{{ "{:,.2f}".format(order.grand) }}</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:0.8rem;">
+                <span style="color:var(--text-muted);">Points Redeemed</span>
+                <strong style="color:var(--accent);">{{ order.points_used }} pts</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;">
+                <span style="color:var(--text-muted);">Points Earned</span>
+                <strong style="color:#27ae60;">+{{ order.points_earned }} pts 🌿</strong>
+            </div>
+        </div>
+
+        <div
+            style="background:linear-gradient(135deg,rgba(111,61,20,0.08),rgba(200,169,110,0.1));border-radius:12px;padding:1.2rem;margin-bottom:2rem;">
+            <p style="font-size:0.88rem;color:var(--accent);font-weight:600;margin-bottom:0.3rem;">Your Balance</p>
+            <p style="font-family:var(--font-heading);font-size:2rem;color:var(--accent);margin:0;">{{ user.points }}
+                pts</p>
+        </div>
+        {% endif %}
+
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+            <a href="{{ url_for('shop') }}" class="btn-premium">Shop Again 🛒</a>
+            <a href="{{ url_for('dashboard') }}" class="btn-outline">My Dashboard</a>
+        </div>
+
+        <p style="color:var(--text-light);font-size:0.8rem;margin-top:2rem;">Delivery within 48 hours · Track via email
+            confirmation</p>
+    </div>
+</div>
+{% endblock %}

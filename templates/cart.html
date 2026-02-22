@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Heathify | My Cart{% endblock %}
+
+{% block content %}
+<div style="padding:3rem 5%;">
+    <div style="max-width:1000px;margin:0 auto;">
+        <div
+            style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem;">
+            <div>
+                <h1 style="font-size:2.5rem;margin-bottom:0.3rem;">Your Cart</h1>
+                <p style="color:var(--text-muted);">{{ items|length }} item(s) in your premium selection</p>
+            </div>
+            <a href="{{ url_for('shop') }}" class="btn-outline">Continue Shopping</a>
+        </div>
+
+        {% if items %}
+        <div style="display:grid;grid-template-columns:1fr 320px;gap:2rem;align-items:start;">
+            <!-- Items Table -->
+            <div class="glass-card" style="padding:0;overflow:hidden;">
+                <table class="premium-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th style="text-align:center;">Qty</th>
+                            <th style="text-align:right;">Price</th>
+                            <th style="text-align:right;">Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr id="cart-row-{{ item.id }}">
+                            <td>
+                                <div style="font-weight:600;color:var(--text-color);">{{ item.product_name }}</div>
+                                <div style="font-size:0.75rem;color:var(--text-light);">{{ item.category }}</div>
+                            </td>
+                            <td style="text-align:center;">
+                                <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;">
+                                    <button class="qty-btn" data-item-id="{{ item.id }}" data-delta="-1"
+                                        style="width:28px;height:28px;border:1.5px solid var(--glass-border);border-radius:50%;background:white;color:var(--accent);font-size:1rem;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center;transition:all 0.2s;"
+                                        onmouseover="this.style.background='var(--accent-cream)'"
+                                        onmouseout="this.style.background='white'">−</button>
+                                    <span id="qty-{{ item.id }}"
+                                        style="font-weight:700;min-width:24px;text-align:center;">{{ item.quantity
+                                        }}</span>
+                                    <button class="qty-btn" data-item-id="{{ item.id }}" data-delta="1"
+                                        style="width:28px;height:28px;border:1.5px solid var(--glass-border);border-radius:50%;background:white;color:var(--accent);font-size:1rem;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center;transition:all 0.2s;"
+                                        onmouseover="this.style.background='var(--accent-cream)'"
+                                        onmouseout="this.style.background='white'">+</button>
+                                </div>
+                            </td>
+                            <td style="text-align:right;color:var(--accent);font-weight:600;">₹{{
+                                "{:,.0f}".format(item.price_inr) }}</td>
+                            <td style="text-align:right;color:var(--accent);font-weight:700;">₹{{
+                                "{:,.0f}".format(item.price_inr * item.quantity) }}</td>
+                            <td style="text-align:right;">
+                                <button class="remove-item-btn btn-danger" data-item-id="{{ item.id }}"
+                                    style="padding:5px 10px;font-size:0.75rem;">✕</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Order Summary -->
+            <div style="display:flex;flex-direction:column;gap:1.5rem;">
+                <div class="glass-card">
+                    <h3 style="margin-bottom:1.5rem;">Order Summary</h3>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:0.8rem;">
+                        <span style="color:var(--text-muted);">Subtotal</span>
+                        <span id="cart-subtotal" style="font-weight:600;">₹{{ "{:,.0f}".format(subtotal) }}</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:0.8rem;">
+                        <span style="color:var(--text-muted);">GST (18%)</span>
+                        <span id="cart-gst" style="font-weight:600;color:var(--text-muted);">₹{{ "{:,.0f}".format(gst)
+                            }}</span>
+                    </div>
+                    <div style="height:1px;background:var(--glass-border);margin:1rem 0;"></div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:1.5rem;">
+                        <span
+                            style="font-family:var(--font-heading);font-size:1.2rem;color:var(--accent);font-weight:700;">Total</span>
+                        <span id="cart-grand"
+                            style="font-family:var(--font-heading);font-size:1.3rem;color:var(--accent);font-weight:700;">₹{{
+                            "{:,.0f}".format(grand) }}</span>
+                    </div>
+                    <a href="{{ url_for('checkout') }}" class="btn-premium"
+                        style="width:100%;display:block;text-align:center;box-sizing:border-box;">Proceed to Checkout
+                        →</a>
+                </div>
+
+                <!-- Points Redemption -->
+                {% if user.points > 0 %}
+                <div class="glass-card"
+                    style="background:linear-gradient(135deg,rgba(200,169,110,0.1),rgba(111,61,20,0.05));">
+                    <h4 style="margin-bottom:0.5rem;">⭐ You have {{ user.points }} points</h4>
+                    <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:0;">Redeem at checkout for ₹{{
+                        user.points }} off (max 20% of total).</p>
+                </div>
+                {% endif %}
+
+                <div class="glass-card"
+                    style="font-size:0.82rem;color:var(--text-muted);line-height:1.7;padding:1.2rem;">
+                    <p style="display:flex;gap:0.5rem;margin-bottom:0.4rem;"><span>🚚</span> Free delivery above ₹2,500
+                    </p>
+                    <p style="display:flex;gap:0.5rem;margin-bottom:0.4rem;"><span>🌿</span> 100% organic, farm-to-door
+                    </p>
+                    <p style="display:flex;gap:0.5rem;"><span>⭐</span> Earn 50 pts on this order</p>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <div style="text-align:center;padding:6rem 2rem;">
+            <div style="font-size:5rem;margin-bottom:1.5rem;">🛒</div>
+            <h2 style="margin-bottom:1rem;">Your cart is empty</h2>
+            <p style="color:var(--text-muted);margin-bottom:2rem;">Explore our premium organic collection and add items.
+            </p>
+            <a href="{{ url_for('shop') }}" class="btn-premium">Browse The Collection</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

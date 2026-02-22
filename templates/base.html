@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Heathify | Live the Illusion{% endblock %}</title>
+    <meta name="description"
+        content="Heathify — Premium organic wellness delivered. Curated nutrition, AI coaching, and farm-to-door produce.">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav id="main-nav">
+        <a href="{{ url_for('index') }}" class="logo">HEATHIFY<span>.</span></a>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('shop') }}">Supplies</a>
+            <a href="{{ url_for('science') }}">The Proof</a>
+            {% if session.get('user_id') %}
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('lifestyle') }}">Lifestyle</a>
+            <span class="nav-points">{{ session_points }} pts</span>
+            <a href="{{ url_for('cart') }}" class="nav-cart">
+                Cart
+                {% if cart_count > 0 %}
+                <span class="cart-badge">{{ cart_count }}</span>
+                {% endif %}
+            </a>
+            <a href="{{ url_for('logout') }}" style="color: #c0392b; font-weight:600;">Logout</a>
+            {% else %}
+            <a href="{{ url_for('login') }}" class="btn-outline"
+                style="padding: 7px 20px; font-size: 0.78rem;">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- ===== FLASH MESSAGES ===== -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="footer-main">
+            <div class="footer-brand">
+                <div class="footer-logo">HEATHIFY<span>.</span></div>
+                <p>Premium organic wellness, delivered within 48 hours. The standard you deserve, curated with purpose.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h5>Explore</h5>
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('shop') }}">Shop Supplies</a>
+                <a href="{{ url_for('science') }}">The Proof</a>
+            </div>
+            <div class="footer-col">
+                <h5>Account</h5>
+                {% if session.get('user_id') %}
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('lifestyle') }}">My Lifestyle</a>
+                <a href="{{ url_for('cart') }}">Cart</a>
+                {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('signup') }}">Join Now</a>
+                {% endif %}
+            </div>
+            <div class="footer-col">
+                <h5>Standards</h5>
+                <a href="#">FSSAI Licensed</a>
+                <a href="#">ISO 22000</a>
+                <a href="#">Non-GMO Verified</a>
+                <a href="#">Carbon Neutral</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2024 Heathify Premium &nbsp;&middot;&nbsp; All prices in ₹ Indian Rupees &nbsp;&middot;&nbsp; The
+            Wellness Standard, perfected.
+        </div>
+    </footer>
+
+    <!-- ===== CHATBOT WIDGET ===== -->
+    {% if session.get('user_id') %}
+    <button id="chatbot-fab" onclick="toggleChatbot()" title="Health Coach">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+    </button>
+
+    <div id="chatbot-panel" class="hidden">
+        <div class="chatbot-header">
+            <div class="chatbot-avatar" style="font-size:0.75rem;font-weight:800;letter-spacing:1px;">AI</div>
+            <div>
+                <div style="font-size:0.95rem;font-weight:700;">Heathify Coach</div>
+                <div style="font-size:0.72rem;opacity:0.8;">Your 24/7 AI Health Advisor</div>
+            </div>
+            <button onclick="toggleChatbot()"
+                style="margin-left:auto;background:none;border:none;color:white;font-size:1.2rem;cursor:pointer;line-height:1;">&#x2715;</button>
+        </div>
+        <div class="chatbot-messages" id="chat-messages">
+            <div class="chat-msg bot">
+                Hello, <strong>{{ session.get('user_name', 'friend') }}</strong>. I am your personal Heathify Health
+                Coach. Ask me about <em>diet, nutrition, weight, sleep, stress,</em> or our products.
+            </div>
+        </div>
+        <div class="chatbot-input-row">
+            <input type="text" id="chatbot-input" placeholder="Ask me anything health-related..."
+                onkeypress="if(event.key==='Enter')sendChat()">
+            <button id="chatbot-send" onclick="sendChat()">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+
+    <script>
+        // Auto-dismiss flash messages
+        setTimeout(() => {
+            document.querySelectorAll('.flash').forEach(f => f.remove());
+        }, 5000);
+
+        // Nav: add .scrolled class on scroll
+        const mainNav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                mainNav.classList.add('scrolled');
+                mainNav.style.boxShadow = '';
+            } else {
+                mainNav.classList.remove('scrolled');
+            }
+        }, { passive: true });
+
+        // Scroll reveal via IntersectionObserver
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    revealObserver.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    </script>
+
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>
